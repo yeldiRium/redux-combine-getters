@@ -69,6 +69,24 @@ describe("combineGetters", () => {
     expect(BG1(store)).toBe("B-Id");
   });
 
+  it("supports getters that take parameters", () => {
+    const getters = {
+      A: {
+        AG1: (state, value) => state.number + value
+      }
+    };
+
+    const { AG1 } = combineGetters(getters);
+
+    const state = {
+      A: {
+        number: 3
+      }
+    };
+
+    expect(AG1(state, 5)).toBe(8);
+  });
+
   it("can handle either an actual store or a state object as parameter to the resolved getters", () => {
     const getters = {
       A: {

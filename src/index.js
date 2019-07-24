@@ -34,7 +34,7 @@ const combineGetters = getters => {
       const getterFunction = storeGetters[getterName];
 
       // Construct new getter that gets subStore as state
-      const newGetter = store => {
+      const newGetter = (store, ...rest) => {
         let state;
         if ("getState" in store && typeof store.getState === "function") {
           // If the given store is an actual redux store, retrieve its state.
@@ -43,7 +43,7 @@ const combineGetters = getters => {
           // Otherwise treat it as a state object.
           state = store;
         }
-        return getterFunction(state[storeName]);
+        return getterFunction(state[storeName], ...rest);
       };
 
       // Check if the getterFunction is already namespaced. This is the case
