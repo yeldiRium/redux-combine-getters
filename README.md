@@ -1,5 +1,8 @@
 # Redux Combine Getters
 
+[![Build Status](https://travis-ci.org/yeldiRium/redux-combine-getters.svg?branch=master)](https://travis-ci.org/yeldiRium/redux-combine-getters)
+[![npm version](http://img.shields.io/npm/v/@yeldirium/redux-combine-getters.svg?style=flat)](https://npmjs.org/package/@yeldirium/redux-combine-getters "View this project on npm")
+
 A small utility for combining and namespacing getters for redux stores analogous to [`combineReducers`](https://redux.js.org/api/combinereducers).
 
 ## Why use this?
