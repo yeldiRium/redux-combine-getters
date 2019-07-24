@@ -5,6 +5,10 @@
 
 A small utility for combining and namespacing getters for redux stores analogous to [`combineReducers`](https://redux.js.org/api/combinereducers).
 
+```
+npm install @yeldirium/redux-combine-getters
+```
+
 ## Why use this?
 
 Redux' `combineReducers` is a wonderful tool for breaking a store into multiple
