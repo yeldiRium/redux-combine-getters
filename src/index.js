@@ -1,5 +1,10 @@
+const isPlainObject = require("is-plain-object");
+
+const { atPath, atPathWithWildcards } = require("./util");
+
 /**
- * Combines a bundle of namespaced getter analogous to redux' combineReducers.
+ * Combines a bundle of namespaced getter analogous to redux' combineReducers
+ * (but more powerful).
  *
  * Expects input of the form:
  * ```js
@@ -8,8 +13,9 @@
  *     getterName: state => state.id // retrieve some value from the state
  *   },
  *   anotherStoreName: {
- *     anotherGetterName: state => ...
- *   }
+ *     '*': state => ...
+ *   },
+ *   aGetter: state => ...
  * }
  * ```
  *
@@ -21,45 +27,98 @@
  * @param {*} getters A bundle of namespaced getter functions.
  */
 const combineGetters = getters => {
+  if (!isPlainObject(getters)) {
+    throw new Error("Expected getters to be a plain object.");
+  }
+
+  const pathStack = Object.keys(getters)
+    .map(key => [key])
+    .reverse();
   const resolvedGetters = {};
 
-  for (const storeName in getters) {
-    const storeGetters = getters[storeName];
-    for (const getterName in storeGetters) {
-      if (getterName in resolvedGetters) {
+  while (pathStack.length > 0) {
+    const path = pathStack.pop();
+
+    const getter = atPath(path, getters);
+
+    if (typeof getter !== "function") {
+      if (!isPlainObject(getter)) {
         throw new Error(
-          `Duplicate getter name. '${resolvedGetters[getterName].originalName}' and '${storeName}.${getterName}' conflict.`
+          `Expected 'getters.${path.join(
+            "."
+          )}' to be a plain object or a function.`
         );
       }
-      const getterFunction = storeGetters[getterName];
 
-      // Construct new getter that gets subStore as state
-      const newGetter = (...args) => {
-        const store = args.pop();
-        let state;
-        if ("getState" in store && typeof store.getState === "function") {
-          // If the given store is an actual redux store, retrieve its state.
-          state = store.getState();
-        } else {
-          // Otherwise treat it as a state object.
-          state = store;
-        }
-        return getterFunction(...args, state[storeName]);
-      };
+      Object.keys(getter)
+        .reverse()
+        .forEach(key => {
+          pathStack.push([...path, key]);
+        });
 
-      // Check if the getterFunction is already namespaced. This is the case
-      //when nesting combineGetters
-      if ("originalName" in getterFunction) {
-        // Append namespaced getterName for duplicate checking
-        newGetter.originalName = `${storeName}.${getterFunction.originalName}`;
-      } else {
-        newGetter.originalName = `${storeName}.${getterName}`;
-      }
-
-      resolvedGetters[getterName] = newGetter;
+      continue;
     }
+
+    const fullyQualifiedGetterName = getter.originalName
+      ? [...path.slice(0, -1), getter.originalName].join(".")
+      : path.join(".");
+    const getterName = path[path.length - 1];
+    if (getterName in resolvedGetters) {
+      throw new Error(
+        `Duplicate getter name. '${resolvedGetters[getterName].originalName}' and '${fullyQualifiedGetterName}' conflict.`
+      );
+    }
+
+    const newGetter = transformGetter(getter, path, fullyQualifiedGetterName);
+    newGetter.originalName = fullyQualifiedGetterName;
+    resolvedGetters[getterName] = newGetter;
   }
+
   return resolvedGetters;
+};
+
+const transformGetter = (getter, path) => {
+  if (!getter) {
+    throw new Error("Getter is missing");
+  }
+  if (typeof getter !== "function") {
+    throw new Error("Expected getter to be a function.");
+  }
+  if (!path) {
+    throw new Error("Path is missing.");
+  }
+
+  const newGetter = (...args) => {
+    if (args.length === 0) {
+      throw new Error("Store/state is missing.");
+    }
+    const store = args.pop();
+    let state;
+    if ("getState" in store && typeof store.getState === "function") {
+      // If the given store is an actual redux store, retrieve its state.
+      state = store.getState();
+    } else {
+      // Otherwise treat it as a state object.
+      state = store;
+    }
+
+    const wildcardParams = [];
+    for (const segment of path) {
+      if (segment === "*") {
+        if (args.length === 0) {
+          throw new Error("Less parameters than wildcard segments supplied.");
+        }
+        wildcardParams.unshift(args.pop());
+      }
+    }
+
+    return getter(
+      ...args,
+      atPathWithWildcards(path.slice(0, -1), state, wildcardParams)
+    );
+  };
+
+  return newGetter;
 };
 
 module.exports = {

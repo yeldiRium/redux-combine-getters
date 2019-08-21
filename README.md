@@ -1,13 +1,23 @@
 # Redux Combine Getters
 
-[![Build Status](https://travis-ci.org/yeldiRium/redux-combine-getters.svg?branch=master)](https://travis-ci.org/yeldiRium/redux-combine-getters)
-[![npm version](http://img.shields.io/npm/v/@yeldirium/redux-combine-getters.svg?style=flat)](https://npmjs.org/package/@yeldirium/redux-combine-getters "View this project on npm")
-
 A small utility for combining and namespacing getters for redux stores analogous to [`combineReducers`](https://redux.js.org/api/combinereducers).
 
-```
+Now with [wildcards](./examples/wildcards)! For stores where the keys are part of the data.
+
+```sh
 npm install @yeldirium/redux-combine-getters
+# or
+yarn install @yeldirium/redux-combine-getters
 ```
+
+## Status
+
+| Category         | Status                                                                                                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Version          | [![npm version](http://img.shields.io/npm/v/@yeldirium/redux-combine-getters.svg?style=flat)](https://npmjs.org/package/@yeldirium/redux-combine-getters "View this project on npm") |
+| Dependencies     | ![David](https://img.shields.io/david/thenativeweb/redux-combine-getters)                                                                                                            |
+| Dev dependencies | ![David](https://img.shields.io/david/dev/thenativeweb/redux-combine-getters)                                                                                                        |
+| Build            | [![Build Status](https://travis-ci.org/yeldiRium/redux-combine-getters.svg?branch=master)](https://travis-ci.org/yeldiRium/redux-combine-getters)                                    |
 
 ## Why use this?
 
@@ -71,89 +81,18 @@ getter name is duplicated. E.g. there can not be a `getId` getter for multiple
 sub-stores. Call them getStoreAId and getStoreBId or something like that. This
 is the only limitation.
 
-Also: You can nest calls to `combineGetters`:
+Also: You can nest structures passed to `combineGetters`:
 
 ```js
 const resolvedGetters = combineGetters({
-    AB: combineGetters({
+    AB: {
         A: { ... },
         B: { ... }
-    }),
+    },
     C: { ... }
 })
 ```
 
 ## Example
 
-Partly taken from [the Redux documentation](https://redux.js.org/basics/reducers#splitting-reducers)
-and expanded.
-
-```js
-// reducers.js
-const { combineReducers } = require("redux");
-// First define several reducers (and actions for them somewhere else)
-const todos = (state = [], action) => {
-  switch (action.type) {
-    case "ADD_TODO":
-      return [
-        ...state,
-        {
-          text: action.text,
-          completed: false
-        }
-      ];
-    case "TOGGLE_TODO":
-      return state.map((todo, index) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          });
-        }
-        return todo;
-      });
-    default:
-      return state;
-  }
-};
-
-const visibilityFilter = (state = "SHOW_ALL", action) => {
-  switch (action.type) {
-    case "SET_VISIBILITY_FILTER":
-      return action.filter;
-    default:
-      return state;
-  }
-};
-
-// Then combine these reducers into one
-module.exports = combineReducers({
-  visibilityFilter,
-  todos
-});
-
-// getters.js
-const { combineGetters } = require("@yeldirium/redux-combine-getters");
-// Define some getters for each of the sub stores
-const getTodoCount = state => state.length;
-const getOpenTodoCount = state => state.filter(todo => !todo.compled).length;
-
-// This one is very basic, since it returns the entire sub-store's content
-const getCurrentVisibility = state => state;
-
-// Then resolve these getters
-module.exports = combineGetters({
-  todos: { getTodoCount, getOpenTodoCount },
-  visibilityFilter: { getCurrentVisibility }
-});
-
-// index.js
-// Now put it all together:
-const { createStore } = require("redux");
-const app = require("./reducer");
-const { getTodoCount, getCurrentVisibity } = require("./getters");
-
-const store = createStore(app);
-
-console.log(getTodoCount(store)) // 0, since there are no todos yet
-console.log(getCurrentVisibility)) // SHOW_ALL, the initial value
-```
+See the [examples directory](./examples).
