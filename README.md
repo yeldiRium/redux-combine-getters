@@ -15,8 +15,8 @@ yarn install @yeldirium/redux-combine-getters
 | Category         | Status                                                                                                                                                                               |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Version          | [![npm version](http://img.shields.io/npm/v/@yeldirium/redux-combine-getters.svg?style=flat)](https://npmjs.org/package/@yeldirium/redux-combine-getters "View this project on npm") |
-| Dependencies     | ![David](https://img.shields.io/david/thenativeweb/redux-combine-getters)                                                                                                            |
-| Dev dependencies | ![David](https://img.shields.io/david/dev/thenativeweb/redux-combine-getters)                                                                                                        |
+| Dependencies     | ![David](https://img.shields.io/david/yeldirium/redux-combine-getters)                                                                                                               |
+| Dev dependencies | ![David](https://img.shields.io/david/dev/yeldirium/redux-combine-getters)                                                                                                           |
 | Build            | [![Build Status](https://travis-ci.org/yeldiRium/redux-combine-getters.svg?branch=master)](https://travis-ci.org/yeldiRium/redux-combine-getters)                                    |
 
 ## Why use this?
