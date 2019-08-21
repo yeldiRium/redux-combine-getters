@@ -72,7 +72,7 @@ describe("combineGetters", () => {
   it("supports getters that take parameters", () => {
     const getters = {
       A: {
-        AG1: (state, value) => state.number + value
+        AG1: (value, state) => state.number + value
       }
     };
 
@@ -84,7 +84,25 @@ describe("combineGetters", () => {
       }
     };
 
-    expect(AG1(state, 5)).toBe(8);
+    expect(AG1(5, state)).toBe(8);
+  });
+
+  it("supports getters that take multiple parameters", () => {
+    const getters = {
+      A: {
+        AG1: (valueA, valueB, state) => state.number + valueA + valueB
+      }
+    };
+
+    const { AG1 } = combineGetters(getters);
+
+    const state = {
+      A: {
+        number: 3
+      }
+    };
+
+    expect(AG1(5, 7, state)).toBe(15);
   });
 
   it("can handle either an actual store or a state object as parameter to the resolved getters", () => {

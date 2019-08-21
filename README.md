@@ -64,6 +64,8 @@ getTodoCount(store);
 
 But only has access to its corresponding sub-store.
 
+> **Careful**: `combineGetters` assumes all getters to be [data-last](https://www.javierchavarri.com/data-first-and-data-last-a-comparison/), i.e. to take the store/state as their last parameter. This is mainly because I like [ramda](https://github.com/ramda/ramda) and [pipeline operators](https://github.com/tc39/proposal-pipeline-operator) are not mainstream in js yet.
+
 Since all getters are collected in a single object you must make sure that no
 getter name is duplicated. E.g. there can not be a `getId` getter for multiple
 sub-stores. Call them getStoreAId and getStoreBId or something like that. This
