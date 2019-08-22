@@ -1,6 +1,6 @@
 const atPath = (path = [], obj) => {
   for (const segment of path) {
-    if (!(segment in obj)) {
+    if (obj === undefined || !(segment in obj)) {
       return undefined;
     }
     obj = obj[segment];
@@ -17,7 +17,7 @@ const atPathWithWildcards = (path = [], obj, _params = []) => {
       }
       segment = params.pop();
     }
-    if (!(segment in obj)) {
+    if (obj === undefined || !(segment in obj)) {
       return undefined;
     }
     obj = obj[segment];

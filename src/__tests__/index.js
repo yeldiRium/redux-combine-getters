@@ -280,6 +280,33 @@ describe("combineGetters", () => {
         expect(GABC1(state)).toBe(state.A.B.C.id);
         expect(whole(state)).toEqual(state);
       });
+
+      it("gives undefined to the getter if a layer in the state is undefined", () => {
+        const getters = {
+          outer: {
+            "*": {
+              inner: {
+                language: state => state,
+                languageOrDefault: state => (state === undefined ? "de" : state)
+              }
+            }
+          }
+        };
+
+        const { language, languageOrDefault } = combineGetters(getters);
+
+        const state = {
+          outer: {
+            wrong: {
+              inner: "en"
+            },
+            right: undefined
+          }
+        };
+
+        expect(language("right", state)).toBe(undefined);
+        expect(languageOrDefault("right", state)).toBe("de");
+      });
     });
   });
 
