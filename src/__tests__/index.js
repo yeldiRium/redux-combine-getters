@@ -340,6 +340,33 @@ describe("combineGetters", () => {
         expect(language("right", state)).toBe(undefined);
         expect(languageOrDefault("right", state)).toBe("de");
       });
+
+      it("gives undefined to the getter if a layer in the state is undefined when nesting combining", () => {
+        const getters = {
+          outer: {
+            "*": combineGetters({
+              inner: {
+                language: state => state,
+                languageOrDefault: state => (state === undefined ? "de" : state)
+              }
+            })
+          }
+        };
+
+        const { language, languageOrDefault } = combineGetters(getters);
+
+        const state = {
+          outer: {
+            wrong: {
+              inner: "en"
+            },
+            right: undefined
+          }
+        };
+
+        expect(language("right", state)).toBe(undefined);
+        expect(languageOrDefault("right", state)).toBe("de");
+      });
     });
   });
 

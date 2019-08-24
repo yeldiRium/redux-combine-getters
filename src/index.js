@@ -94,7 +94,11 @@ const transformGetter = (getter, path) => {
     }
     const store = args.pop();
     let state;
-    if ("getState" in store && typeof store.getState === "function") {
+    if (
+      store !== undefined &&
+      "getState" in store &&
+      typeof store.getState === "function"
+    ) {
       // If the given store is an actual redux store, retrieve its state.
       state = store.getState();
     } else {
