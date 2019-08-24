@@ -19,7 +19,10 @@
   },
   "scripts": {
     "lint": "prettier --check src/**/*.js",
-    "test": "yarn run lint && jest"
+    "test": "yarn run lint && jest",
+    "publish-patch": "yarn test && yarn version --patch && git push --tags && git push && yarn publish",
+    "publish-minor": "yarn test && yarn version --minor && git push --tags && git push && yarn publish",
+    "publish-major": "yarn test && yarn version --major && git push --tags && git push && yarn publish"
   },
   "devDependencies": {
     "jest": "^24.8.0",
