@@ -233,6 +233,39 @@ describe("combineGetters", () => {
         expect(CG1(state)).toBe("C-Id");
       });
 
+      it("can speard combined getters into new combined getter", () => {
+        const getters = {
+          ...combineGetters({
+            A: {
+              AG1: state => state.id
+            },
+            B: {
+              BG1: state => state.id
+            }
+          }),
+          C: {
+            CG1: state => state.id
+          }
+        };
+        const { AG1, BG1, CG1 } = combineGetters(getters);
+
+        const state = {
+          A: {
+            id: "A-Id"
+          },
+          B: {
+            id: "B-Id"
+          },
+          C: {
+            id: "C-Id"
+          }
+        };
+
+        expect(AG1(state)).toBe("A-Id");
+        expect(BG1(state)).toBe("B-Id");
+        expect(CG1(state)).toBe("C-Id");
+      });
+
       it("can be nested multiple layers", () => {
         const getters = {
           A: {
