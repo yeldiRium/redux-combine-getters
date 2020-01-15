@@ -12,12 +12,13 @@ yarn install @yeldirium/redux-combine-getters
 
 ## Status
 
-| Category         | Status                                                                                                                                                                               |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Version          | [![npm version](http://img.shields.io/npm/v/@yeldirium/redux-combine-getters.svg?style=flat)](https://npmjs.org/package/@yeldirium/redux-combine-getters "View this project on npm") |
-| Dependencies     | ![David](https://img.shields.io/david/yeldirium/redux-combine-getters)                                                                                                               |
-| Dev dependencies | ![David](https://img.shields.io/david/dev/yeldirium/redux-combine-getters)                                                                                                           |
-| Build            | [![Build Status](https://travis-ci.org/yeldiRium/redux-combine-getters.svg?branch=master)](https://travis-ci.org/yeldiRium/redux-combine-getters)                                    |
+| Category         | Status                                                                                                                                  |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Version          | [![npm](https://img.shields.io/npm/v/@yeldirium/redux-combine-getters)](https://www.npmjs.com/package/@yeldirium/redux-combine-getters) |
+| Dependencies     | ![David](https://img.shields.io/david/yeldirium/redux-combine-getters)                                                                  |
+| Dev dependencies | ![David](https://img.shields.io/david/dev/yeldirium/redux-combine-getters)                                                              |
+| Build            | ![GitHub Actions](https://github.com/yeldiRium/redux-combine-getters/workflows/Release/badge.svg?branch=master)                         |
+| License          | ![GitHub](https://img.shields.io/github/license/yeldiRium/redux-combine-getters)                                                        |
 
 ## Why use this?
 

@@ -68,10 +68,10 @@ describe("combineGetters", () => {
 
       const { AG1, BG1 } = combineGetters(getters);
 
-      const A = (state = null, action) => {
+      const A = () => {
         return { id: "A-Id" };
       };
-      const B = (state = null, action) => {
+      const B = () => {
         return { id: "B-Id" };
       };
       const store = createStore(combineReducers({ A, B }));
