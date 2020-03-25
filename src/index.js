@@ -26,13 +26,13 @@ const { atPath, atPathWithWildcards } = require("./util");
  *
  * @param {*} getters A bundle of namespaced getter functions.
  */
-const combineGetters = getters => {
+const combineGetters = (getters) => {
   if (!isPlainObject(getters)) {
     throw new Error("Expected getters to be a plain object.");
   }
 
   const pathStack = Object.keys(getters)
-    .map(key => [key])
+    .map((key) => [key])
     .reverse();
   const resolvedGetters = {};
 
@@ -52,7 +52,7 @@ const combineGetters = getters => {
 
       Object.keys(getter)
         .reverse()
-        .forEach(key => {
+        .forEach((key) => {
           pathStack.push([...path, key]);
         });
 
@@ -126,5 +126,5 @@ const transformGetter = (getter, path) => {
 };
 
 module.exports = {
-  combineGetters
+  combineGetters,
 };

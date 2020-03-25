@@ -27,5 +27,5 @@ const atPathWithWildcards = (path = [], obj, _params = []) => {
 
 module.exports = {
   atPath,
-  atPathWithWildcards
+  atPathWithWildcards,
 };
