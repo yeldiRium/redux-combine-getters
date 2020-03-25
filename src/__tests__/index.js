@@ -14,16 +14,16 @@ describe("combineGetters", () => {
   it("returns an object containing a function for each getter passed into it", () => {
     const getters = {
       A: {
-        AG1: state => state.id,
-        AG2: state => state.name
+        AG1: (state) => state.id,
+        AG2: (state) => state.name,
       },
       B: {
         thing: {
-          BThingG1: state => state.thang
+          BThingG1: (state) => state.thang,
         },
-        BG1: state => state.thing
+        BG1: (state) => state.thing,
       },
-      CG1: state => state.A
+      CG1: (state) => state.A,
     };
 
     const combinedGetters = combineGetters(getters);
@@ -33,7 +33,7 @@ describe("combineGetters", () => {
       "AG2",
       "BThingG1",
       "BG1",
-      "CG1"
+      "CG1",
     ]);
   });
 
@@ -41,12 +41,12 @@ describe("combineGetters", () => {
     it("attaches original names to the getters", () => {
       const getters = {
         A: {
-          AG1: state => state.id,
-          AG2: state => state.name
+          AG1: (state) => state.id,
+          AG2: (state) => state.name,
         },
         B: {
-          BG1: state => state.thing
-        }
+          BG1: (state) => state.thing,
+        },
       };
 
       const combinedGetters = combineGetters(getters);
@@ -59,11 +59,11 @@ describe("combineGetters", () => {
     it("namespaces the getters so they can be applied to a combined store", () => {
       const getters = {
         A: {
-          AG1: state => state.id
+          AG1: (state) => state.id,
         },
         B: {
-          BG1: state => state.id
-        }
+          BG1: (state) => state.id,
+        },
       };
 
       const { AG1, BG1 } = combineGetters(getters);
@@ -85,17 +85,17 @@ describe("combineGetters", () => {
     it("supports getters on the same level as stores", () => {
       const getters = {
         A: {
-          GA1: state => state.id
+          GA1: (state) => state.id,
         },
-        G1: state => state.A.id
+        G1: (state) => state.A.id,
       };
 
       const { GA1, G1 } = combineGetters(getters);
 
       const state = {
         A: {
-          id: "aID"
-        }
+          id: "aID",
+        },
       };
 
       expect(GA1(state)).toBe("aID");
@@ -105,21 +105,21 @@ describe("combineGetters", () => {
     it("can handle either an actual store or a state object as parameter to the resolved getters", () => {
       const getters = {
         A: {
-          AG1: state => state.id
+          AG1: (state) => state.id,
         },
         B: {
-          BG1: state => state.id
-        }
+          BG1: (state) => state.id,
+        },
       };
 
       const { AG1, BG1 } = combineGetters(getters);
       const state = {
         A: {
-          id: "A-Id"
+          id: "A-Id",
         },
         B: {
-          id: "B-Id"
-        }
+          id: "B-Id",
+        },
       };
 
       expect(AG1(state)).toBe("A-Id");
@@ -129,16 +129,16 @@ describe("combineGetters", () => {
     it("supports getters that take parameters", () => {
       const getters = {
         A: {
-          AG1: (value, state) => state.number + value
-        }
+          AG1: (value, state) => state.number + value,
+        },
       };
 
       const { AG1 } = combineGetters(getters);
 
       const state = {
         A: {
-          number: 3
-        }
+          number: 3,
+        },
       };
 
       expect(AG1(5, state)).toBe(8);
@@ -147,16 +147,16 @@ describe("combineGetters", () => {
     it("supports getters that take multiple parameters", () => {
       const getters = {
         A: {
-          AG1: (valueA, valueB, state) => state.number + valueA + valueB
-        }
+          AG1: (valueA, valueB, state) => state.number + valueA + valueB,
+        },
       };
 
       const { AG1 } = combineGetters(getters);
 
       const state = {
         A: {
-          number: 3
-        }
+          number: 3,
+        },
       };
 
       expect(AG1(5, 7, state)).toBe(15);
@@ -167,30 +167,30 @@ describe("combineGetters", () => {
         const getters = {
           AB: {
             A: {
-              AG1: state => state.id
+              AG1: (state) => state.id,
             },
             B: {
-              BG1: state => state.id
-            }
+              BG1: (state) => state.id,
+            },
           },
           C: {
-            CG1: state => state.id
-          }
+            CG1: (state) => state.id,
+          },
         };
         const { AG1, BG1, CG1 } = combineGetters(getters);
 
         const state = {
           AB: {
             A: {
-              id: "AB-A-Id"
+              id: "AB-A-Id",
             },
             B: {
-              id: "AB-B-Id"
-            }
+              id: "AB-B-Id",
+            },
           },
           C: {
-            id: "C-Id"
-          }
+            id: "C-Id",
+          },
         };
 
         expect(AG1(state)).toBe("AB-A-Id");
@@ -202,30 +202,30 @@ describe("combineGetters", () => {
         const getters = {
           AB: combineGetters({
             A: {
-              AG1: state => state.id
+              AG1: (state) => state.id,
             },
             B: {
-              BG1: state => state.id
-            }
+              BG1: (state) => state.id,
+            },
           }),
           C: {
-            CG1: state => state.id
-          }
+            CG1: (state) => state.id,
+          },
         };
         const { AG1, BG1, CG1 } = combineGetters(getters);
 
         const state = {
           AB: {
             A: {
-              id: "AB-A-Id"
+              id: "AB-A-Id",
             },
             B: {
-              id: "AB-B-Id"
-            }
+              id: "AB-B-Id",
+            },
           },
           C: {
-            id: "C-Id"
-          }
+            id: "C-Id",
+          },
         };
 
         expect(AG1(state)).toBe("AB-A-Id");
@@ -237,28 +237,28 @@ describe("combineGetters", () => {
         const getters = {
           ...combineGetters({
             A: {
-              AG1: state => state.id
+              AG1: (state) => state.id,
             },
             B: {
-              BG1: state => state.id
-            }
+              BG1: (state) => state.id,
+            },
           }),
           C: {
-            CG1: state => state.id
-          }
+            CG1: (state) => state.id,
+          },
         };
         const { AG1, BG1, CG1 } = combineGetters(getters);
 
         const state = {
           A: {
-            id: "A-Id"
+            id: "A-Id",
           },
           B: {
-            id: "B-Id"
+            id: "B-Id",
           },
           C: {
-            id: "C-Id"
-          }
+            id: "C-Id",
+          },
         };
 
         expect(AG1(state)).toBe("A-Id");
@@ -269,18 +269,18 @@ describe("combineGetters", () => {
       it("can be nested multiple layers", () => {
         const getters = {
           A: {
-            aWhole: state => state,
-            GA1: state => state.id,
+            aWhole: (state) => state,
+            GA1: (state) => state.id,
             B: {
-              bWhole: state => state,
-              GAB1: state => state.id,
+              bWhole: (state) => state,
+              GAB1: (state) => state.id,
               C: {
-                cWhole: state => state,
-                GABC1: state => state.id
-              }
-            }
+                cWhole: (state) => state,
+                GABC1: (state) => state.id,
+              },
+            },
           },
-          whole: state => state
+          whole: (state) => state,
         };
 
         const {
@@ -290,7 +290,7 @@ describe("combineGetters", () => {
           GAB1,
           cWhole,
           GABC1,
-          whole
+          whole,
         } = combineGetters(getters);
 
         const state = {
@@ -299,10 +299,10 @@ describe("combineGetters", () => {
             B: {
               id: "B-Id",
               C: {
-                id: "C-Id"
-              }
-            }
-          }
+                id: "C-Id",
+              },
+            },
+          },
         };
 
         expect(aWhole(state)).toEqual(state.A);
@@ -319,11 +319,12 @@ describe("combineGetters", () => {
           outer: {
             "*": {
               inner: {
-                language: state => state,
-                languageOrDefault: state => (state === undefined ? "de" : state)
-              }
-            }
-          }
+                language: (state) => state,
+                languageOrDefault: (state) =>
+                  state === undefined ? "de" : state,
+              },
+            },
+          },
         };
 
         const { language, languageOrDefault } = combineGetters(getters);
@@ -331,10 +332,10 @@ describe("combineGetters", () => {
         const state = {
           outer: {
             wrong: {
-              inner: "en"
+              inner: "en",
             },
-            right: undefined
-          }
+            right: undefined,
+          },
         };
 
         expect(language("right", state)).toBe(undefined);
@@ -346,11 +347,12 @@ describe("combineGetters", () => {
           outer: {
             "*": combineGetters({
               inner: {
-                language: state => state,
-                languageOrDefault: state => (state === undefined ? "de" : state)
-              }
-            })
-          }
+                language: (state) => state,
+                languageOrDefault: (state) =>
+                  state === undefined ? "de" : state,
+              },
+            }),
+          },
         };
 
         const { language, languageOrDefault } = combineGetters(getters);
@@ -358,10 +360,10 @@ describe("combineGetters", () => {
         const state = {
           outer: {
             wrong: {
-              inner: "en"
+              inner: "en",
             },
-            right: undefined
-          }
+            right: undefined,
+          },
         };
 
         expect(language("right", state)).toBe(undefined);
@@ -373,7 +375,7 @@ describe("combineGetters", () => {
   describe("error handling", () => {
     it("getters throw an error if no store is given", () => {
       const getters = {
-        G1: state => state
+        G1: (state) => state,
       };
 
       const { G1 } = combineGetters(getters);
@@ -441,11 +443,11 @@ describe("combineGetters", () => {
     it("throws a descriptive error if the names of getters conflict", () => {
       const getters = {
         someStore: {
-          someGetter: state => state.id
+          someGetter: (state) => state.id,
         },
         otherStore: {
-          someGetter: state => state.id
-        }
+          someGetter: (state) => state.id,
+        },
       };
       expect(() => combineGetters(getters)).toThrowError(
         "Duplicate getter name. 'someStore.someGetter' and 'otherStore.someGetter' conflict."
@@ -455,17 +457,17 @@ describe("combineGetters", () => {
     it("throws a descriptive error when nesting", () => {
       const getters = {
         A: {
-          AG1: state => state.id
+          AG1: (state) => state.id,
         },
         B: {
-          BG1: state => state.id
-        }
+          BG1: (state) => state.id,
+        },
       };
       const getters2 = {
         AB: combineGetters(getters),
         C: {
-          AG1: state => state.id
-        }
+          AG1: (state) => state.id,
+        },
       };
 
       expect(() => combineGetters(getters2)).toThrowError(
@@ -478,19 +480,19 @@ describe("combineGetters", () => {
     it("supports wildcards as store names and assumes the second to last getter parameter to be the store name", () => {
       const getters = {
         "*": {
-          AG1: state => state.id
-        }
+          AG1: (state) => state.id,
+        },
       };
 
       const { AG1 } = combineGetters(getters);
 
       const state = {
         A: {
-          id: "A-Id"
+          id: "A-Id",
         },
         B: {
-          id: "B-Id"
-        }
+          id: "B-Id",
+        },
       };
 
       expect(AG1("A", state)).toBe("A-Id");
@@ -500,15 +502,15 @@ describe("combineGetters", () => {
     it("returns undefined for access to wildcards with no entry in the state", () => {
       const getters = {
         "*": {
-          GA1: state => state
-        }
+          GA1: (state) => state,
+        },
       };
 
       const { GA1 } = combineGetters(getters);
 
       const state = {
         A: "A",
-        B: "B"
+        B: "B",
       };
 
       expect(GA1("C", state)).toBe(undefined);
@@ -518,9 +520,9 @@ describe("combineGetters", () => {
       const getters = {
         "*": {
           "*": {
-            GA1: state => state
-          }
-        }
+            GA1: (state) => state,
+          },
+        },
       };
 
       const { GA1 } = combineGetters(getters);
@@ -534,9 +536,9 @@ describe("combineGetters", () => {
       const getters = {
         "*": {
           "*": {
-            AG1: state => state.id
-          }
-        }
+            AG1: (state) => state.id,
+          },
+        },
       };
 
       const { AG1 } = combineGetters(getters);
@@ -544,9 +546,9 @@ describe("combineGetters", () => {
       const state = {
         outer: {
           inner: {
-            id: "outer-inner-Id"
-          }
-        }
+            id: "outer-inner-Id",
+          },
+        },
       };
 
       expect(AG1("inner", "outer", state)).toBe("outer-inner-Id");
@@ -557,10 +559,10 @@ describe("combineGetters", () => {
         "*": {
           A: {
             "*": {
-              AG1: state => state.id
-            }
-          }
-        }
+              AG1: (state) => state.id,
+            },
+          },
+        },
       };
 
       const { AG1 } = combineGetters(getters);
@@ -569,13 +571,13 @@ describe("combineGetters", () => {
         outer: {
           A: {
             inner: {
-              id: "outer-A-inner-Id"
+              id: "outer-A-inner-Id",
             },
             innerTwo: {
-              id: "outer-A-innerTwo-Id"
-            }
-          }
-        }
+              id: "outer-A-innerTwo-Id",
+            },
+          },
+        },
       };
 
       expect(AG1("inner", "outer", state)).toBe("outer-A-inner-Id");
@@ -585,17 +587,17 @@ describe("combineGetters", () => {
     it("allows wildcards on the same level as other getters", () => {
       const getters = {
         "*": {
-          AG1: state => state.id
+          AG1: (state) => state.id,
         },
-        AG2: (name, state) => state[name].id
+        AG2: (name, state) => state[name].id,
       };
 
       const { AG1, AG2 } = combineGetters(getters);
 
       const state = {
         someThing: {
-          id: "someThingID"
-        }
+          id: "someThingID",
+        },
       };
 
       expect(AG1("someThing", state)).toBe("someThingID");
@@ -605,14 +607,14 @@ describe("combineGetters", () => {
     it("throws an error if less parameters than wildcards are given", () => {
       const getters = {
         "*": {
-          G1: state => state
-        }
+          G1: (state) => state,
+        },
       };
 
       const { G1 } = combineGetters(getters);
 
       const state = {
-        A: {}
+        A: {},
       };
 
       expect(() => G1(state)).toThrow(
