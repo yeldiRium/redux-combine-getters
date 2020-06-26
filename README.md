@@ -1,5 +1,13 @@
 # Redux Combine Getters
 
+**This library is no longer maintained**
+
+I've abandoned this library because its entire premise was misguided. I tried to create a method of composing getters analogous to reducers, and it made things much more complicated. For anyone interested in getter composition I recommend taking a look at [reselect](https://github.com/reduxjs/reselect).
+
+If anyone really likes this library and would like to revive it, feel free to send me an e-mail.
+
+---
+
 A small utility for combining and namespacing getters for redux stores analogous to [`combineReducers`](https://redux.js.org/api/combinereducers).
 
 Now with [wildcards](./examples/wildcards)! For stores where the keys are part of the data.
@@ -24,7 +32,7 @@ yarn install @yeldirium/redux-combine-getters
 
 Redux' `combineReducers` is a wonderful tool for breaking a store into multiple
 smaller stores. This makes the whole store much more testable. If you're like me
-and also write getters for your sub-stores to make accessing the data easier,
+and write getters for your sub-stores to make accessing the data easier,
 maintining said getters can become tedious at some point. The reducers don't
 know about their place in the store, since they are encapsulated components.
 However, the getters have to query the store across all layers. That is tight
@@ -33,11 +41,11 @@ test a getter, right?
 
 If you move your reducers around and change your store's overall structure, you
 don't have to adjust the individual reducers or their tests, because they are
-completely independent from the overall store structure. With `combineGetters`
-your getters are also independent from the overall structure and only query the
+completely independent of the overall store structure. With `combineGetters`
+your getters are also independent of the overall structure and only query the
 smaller sub-stores.
 
-TL;DR: Make getters independent from store structure. It's easier to comprehend
+TL;DR: Make getters independent of store structure. It's easier to comprehend
 and test.
 
 ## How it works
