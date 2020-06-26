@@ -1,6 +1,6 @@
 {
   "name": "@yeldirium/redux-combine-getters",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "A utility for combining redux getters analogous to combineReducers.",
   "keywords": [
     "redux",

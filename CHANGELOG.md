@@ -1,3 +1,10 @@
+## [2.1.6](https://github.com/yeldiRium/redux-combine-getters/compare/v2.1.5...v2.1.6) (2020-06-26)
+
+
+### Bug Fixes
+
+* Mark project as unmaintained. ([9053ece](https://github.com/yeldiRium/redux-combine-getters/commit/9053ece3d78b6e384dd8078a25e1e8d7c24667bc))
+
 ## [2.1.5](https://github.com/yeldiRium/redux-combine-getters/compare/v2.1.4...v2.1.5) (2020-01-15)
 
 
